@@ -1,9 +1,173 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>Hello, World!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ランニング記録</title>
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
+
+        #title {
+            background-color: #333;
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        #subtitle {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .calendar-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .calendar {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .calendar h2 {
+            font-size: 20px;
+        }
+
+        .week {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .date {
+            text-align: center;
+            cursor: pointer;
+            padding: 10px;
+            flex-grow: 1;
+        }
+
+        .clickable {
+            background-color: lightgreen;
+        }
+
+        .unclickable {
+            background-color: lightgray;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World!</h1>
+    <div id="title">ランニング記録</div>
+    <div id="subtitle">ランニングデータを見たい日付を選んでください</div>
+
+    <div class="calendar-container">
+        <div class="calendar" id="calendar1">
+            <h2>2023年 10月</h2>
+            <!-- カレンダーの日付はJavaScriptで生成 -->
+        </div>
+
+        <div class="calendar" id="calendar2">
+            <h2>2023年 11月</h2>
+            <!-- カレンダーの日付はJavaScriptで生成 -->
+        </div>
+
+        <div class="calendar" id="calendar3">
+            <h2>2023年 12月</h2>
+            <!-- カレンダーの日付はJavaScriptで生成 -->
+        </div>
+
+        <div class="calendar" id="calendar4">
+            <h2>2024年 1月</h2>
+            <!-- カレンダーの日付はJavaScriptで生成 -->
+        </div>
+
+        <div class="calendar" id="calendar5">
+            <h2>2024年 2月</h2>
+            <!-- カレンダーの日付はJavaScriptで生成 -->
+        </div>
+
+        <div class="calendar" id="calendar6">
+            <h2>2024年 3月</h2>
+            <!-- カレンダーの日付はJavaScriptで生成 -->
+        </div>
+    </div>
+
+    <script>
+        // カレンダーの日付を生成し、クリック可/不可、色覚的表示を設定
+        function generateCalendar(year, month, calendarId, clickableDates) {
+            const calendar = document.getElementById(calendarId);
+
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const startDate = new Date(year, month - 1, 1).getDay(); // 月の最初の曜日
+            
+            const weekDays = ["日", "月", "火", "水", "木", "金", "土"];
+            
+            const week = document.createElement("div");
+            week.className = "week";
+            
+            for (let i = 0; i < 7; i++) {
+                const dayLabel = document.createElement("div");
+                dayLabel.textContent = weekDays[i];
+                week.appendChild(dayLabel);
+            }
+            
+            calendar.appendChild(week);
+
+            let currentWeek = document.createElement("div");
+            currentWeek.className = "week";
+            
+            for (let i = 0; i < startDate; i++) {
+                currentWeek.appendChild(document.createElement("div"));
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                const dateElement = document.createElement("div");
+                dateElement.textContent = day;
+                dateElement.className = "date";
+                
+                // 日付がクリック可能なリストに含まれているかどうかをチェック
+                if (clickableDates.includes(day)) {
+                    dateElement.onclick = () => navigateTo(dateStr);
+                    dateElement.classList.add("clickable");
+                } else {
+                    // クリックできない日付はクリック不可
+                    dateElement.classList.add("unclickable");
+                    dateElement.style.cursor = "not-allowed";
+                }
+                
+                currentWeek.appendChild(dateElement);
+
+                if ((startDate + day - 1) % 7 === 6 || day === daysInMonth) {
+                    calendar.appendChild(currentWeek);
+                    currentWeek = document.createElement("div");
+                    currentWeek.className = "week";
+                }
+            }
+        }
+        
+        // 日付をクリックしたときの処理
+        function navigateTo(date) {
+            window.location.href = "https://yooooshi0911.github.io/" + date;
+        }
+
+        // 各月のカレンダーを生成
+        generateCalendar(2023, 10, "calendar1", []);
+        generateCalendar(2023, 11, "calendar2", []);
+        generateCalendar(2023, 12, "calendar3", []);
+        generateCalendar(2024, 1, "calendar4", []);
+        generateCalendar(2024, 2, "calendar5", []);
+        generateCalendar(2024, 3, "calendar6", []);
+    </script>
 </body>
 </html>
