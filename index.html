@@ -71,11 +71,6 @@
     <div id="subtitle">ランニングデータを見たい日付を選んでください</div>
 
     <div class="calendar-container">
-        <div class="calendar" id="calendar1">
-            <h2>2023年 10月</h2>
-            <!-- カレンダーの日付はJavaScriptで生成 -->
-        </div>
-
         <div class="calendar" id="calendar2">
             <h2>2023年 11月</h2>
             <!-- カレンダーの日付はJavaScriptで生成 -->
@@ -110,20 +105,7 @@
             const daysInMonth = new Date(year, month, 0).getDate();
             const startDate = new Date(year, month - 1, 1).getDay(); // 月の最初の曜日
             
-            const weekDays = ["日", "月", "火", "水", "木", "金", "土"];
-            
-            const week = document.createElement("div");
-            week.className = "week";
-            
-            for (let i = 0; i < 7; i++) {
-                const dayLabel = document.createElement("div");
-                dayLabel.textContent = weekDays[i];
-                week.appendChild(dayLabel);
-            }
-            
-            calendar.appendChild(week);
-
-            let currentWeek = document.createElement("div");
+            const currentWeek = document.createElement("div");
             currentWeek.className = "week";
             
             for (let i = 0; i < startDate; i++) {
@@ -162,8 +144,7 @@
         }
 
         // 各月のカレンダーを生成
-        generateCalendar(2023, 10, "calendar1", [1]);
-        generateCalendar(2023, 11, "calendar2", []);
+        generateCalendar(2023, 11, "calendar2", [1,2]);
         generateCalendar(2023, 12, "calendar3", []);
         generateCalendar(2024, 1, "calendar4", []);
         generateCalendar(2024, 2, "calendar5", []);
