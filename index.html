@@ -13,17 +13,18 @@
         }
 
         #title {
-            background-color: #333;
+            background-color: #fdd835;
             color: white;
             width: 100%;
             text-align: center;
             padding: 20px;
-            font-size: 24px;
+            font-size: 36px;
         }
 
         #subtitle {
             text-align: center;
             font-size: 18px;
+            margin-bottom: 20px;
         }
 
         .calendar-container {
@@ -38,22 +39,26 @@
             margin: 10px;
             padding: 10px;
             text-align: center;
+            width: 200px; /* カレンダーの幅を指定 */
         }
 
         .calendar h2 {
-            font-size: 20px;
+            font-size: 24px;
+            margin-bottom: 10px;
         }
 
         .week {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap; /* 1週間ごとに改行 */
         }
 
         .date {
             text-align: center;
             cursor: pointer;
             padding: 10px;
-            flex-grow: 1;
+            flex-basis: 14.28%; /* 1週間を均等に分割 */
+            margin-bottom: 5px;
+            border: 1px solid #ccc; /* 日付の境界線を追加 */
         }
 
         .clickable {
@@ -104,20 +109,20 @@
 
             const daysInMonth = new Date(year, month, 0).getDate();
             const startDate = new Date(year, month - 1, 1).getDay(); // 月の最初の曜日
-            
-            const currentWeek = document.createElement("div");
+
+            let currentWeek = document.createElement("div");
             currentWeek.className = "week";
-            
+
             for (let i = 0; i < startDate; i++) {
                 currentWeek.appendChild(document.createElement("div"));
             }
-            
+
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateStr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
                 const dateElement = document.createElement("div");
                 dateElement.textContent = day;
                 dateElement.className = "date";
-                
+
                 // 日付がクリック可能なリストに含まれているかどうかをチェック
                 if (clickableDates.includes(day)) {
                     dateElement.onclick = () => navigateTo(dateStr);
@@ -127,24 +132,24 @@
                     dateElement.classList.add("unclickable");
                     dateElement.style.cursor = "not-allowed";
                 }
-                
+
                 currentWeek.appendChild(dateElement);
 
-                if ((startDate + day - 1) % 7 === 6 || day === daysInMonth) {
+                if (currentWeek.children.length === 7) {
                     calendar.appendChild(currentWeek);
                     currentWeek = document.createElement("div");
                     currentWeek.className = "week";
                 }
             }
         }
-        
+
         // 日付をクリックしたときの処理
         function navigateTo(date) {
             window.location.href = "https://yooooshi0911.github.io/" + date;
         }
 
         // 各月のカレンダーを生成
-        generateCalendar(2023, 11, "calendar2", [1,2]);
+        generateCalendar(2023, 11, "calendar2", [1, 2, 3, 4, 6, 7]);
         generateCalendar(2023, 12, "calendar3", []);
         generateCalendar(2024, 1, "calendar4", []);
         generateCalendar(2024, 2, "calendar5", []);
